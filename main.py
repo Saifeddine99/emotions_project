@@ -1,9 +1,10 @@
 import streamlit as st 
+
 import pandas as pd 
 import numpy as np
 import pickle
 
-st.set_page_config(page_title="self harm risk", page_icon=":clipboard2-pulse-fill:", layout="centered")
+st.set_page_config(page_title="self harm risk", page_icon="	:clipboard:", layout="centered")
 
 st.markdown("<h1 style='color: #0B5345;'>This Web App predicts the risk of self harm based on patient's emotions:</h1>", unsafe_allow_html = True)
 st.write("#")
@@ -70,17 +71,21 @@ emotions=pd.DataFrame(my_array,columns=emotions_list)
 st.subheader("Here is the summary of chosen emotions:")
 st.dataframe(emotions)
 
+st.write("#")
+st.write("#")
+
 col1, col2, col3 = st.columns([3,2,3])
 with col2:
     center_button = st.button('Predict self harm risk')
 if (center_button):
     
     # load model from file
-    loaded_model = pickle.load(open("trained_model.pickle.dat", "rb"))
+    with open("trained_model.pickle.dat", 'rb') as f:
+        model = pickle.load(f)
     # make predictions for test data
-    y_pred = loaded_model.predict(emotions)
+    y_pred = model.predict(emotions)
     st.write("#")
     if y_pred==1:
-        st.header("There is a self harm risk !")
+        st.header("There is a risk of self harm !")
     else:
-        st.header("there is no self harm risk !")
+        st.header("There is no risk of self harm !")
