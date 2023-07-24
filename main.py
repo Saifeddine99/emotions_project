@@ -4,7 +4,16 @@ import pandas as pd
 import numpy as np
 import pickle
 
-st.set_page_config(page_title="self harm risk", page_icon="	:clipboard:", layout="centered")
+import requests
+from streamlit_lottie import st_lottie
+
+def load_lottieurl(url):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
+
+st.set_page_config(page_title="Self Harm Risk", page_icon="	:clipboard:", layout="centered")
 
 st.markdown("<h1 style='color: #0B5345;'>This Web App predicts the risk of self harm based on patient's emotions:</h1>", unsafe_allow_html = True)
 st.write("#")
@@ -69,7 +78,7 @@ my_array=my_array.reshape(1,9)
 emotions_list=["feliz","enfadado","triste","vergonzoso","angustiado","relajado","culpable","frustrado","otra"]
 emotions=pd.DataFrame(my_array,columns=emotions_list)
 st.subheader("Here is the summary of chosen emotions:")
-st.dataframe(emotions)
+st.dataframe(emotions,hide_index=True) 
 
 st.write("#")
 st.write("#")
